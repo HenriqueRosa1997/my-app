@@ -6,10 +6,13 @@ import {
   Text,
   FlatList,
   Image,
+  Button,
   StyleSheet,
 } from "react-native";
-import { style } from "../../style/style";
+import { style } from "../Home/style";
 import Footer from "../components/Footer";
+import { auth } from "@/config/firebase";
+import { signOut } from "firebase/auth";
 
 export default function Home() {
   const [data, setData] = useState<Car[]>(
@@ -19,34 +22,35 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
 
   const renderItem = ({ item }: { item: Car }) => (
-    <View style={styles.card}>
+    <View style={style.card}>
       <Image
         source={item.image}
-        style={styles.carImage}
+        style={style.carImage}
         resizeMode="cover"
       />
 
-      <Text style={styles.carName}>
+      <Text style={style.carName}>
         {item.name}
       </Text>
 
-      <Text style={styles.carYear}>
+      <Text style={style.carYear}>
         {item.year}
       </Text>
 
-      <Text style={styles.description}>
+      <Text style={style.description}>
         {item.description}
       </Text>
     </View>
   );
 
   const loadMoreData = () => {
-    if (loading || data.length >= cars.length) {
-      return;
-    }
+  if (loading || data.length >= cars.length) {
+    return;
+  }
 
-    setLoading(true);
+  setLoading(true);
 
+  setTimeout(() => {
     const newData = cars.slice(
       data.length,
       data.length + 1
@@ -58,10 +62,24 @@ export default function Home() {
     ]);
 
     setLoading(false);
+  }, 1000);
   };
+  
+  const handleLogout = async () => { 
+    await signOut(auth)
+    navigation.navigate('Login')
+  }
+
+
 
   return (
-    <View style={styles.container}>
+    <View style={style.container}>
+          <View>
+      <Button
+        title="Logout"
+        onPress={handleLogout}
+      />
+    </View>
       <Text style={style.sectionTitle}>
         Car List
       </Text>
@@ -85,42 +103,3 @@ export default function Home() {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-
-  card: {
-    backgroundColor: "#fff",
-    marginHorizontal: 16,
-    marginBottom: 20,
-    borderRadius: 12,
-    overflow: "hidden",
-    elevation: 4,
-  },
-
-  carImage: {
-    width: "100%",
-    height: 220,
-  },
-
-  carName: {
-    fontSize: 20,
-    fontWeight: "bold",
-    marginTop: 12,
-    marginHorizontal: 12,
-  },
-
-  carYear: {
-    fontSize: 16,
-    color: "#555",
-    marginTop: 4,
-    marginHorizontal: 12,
-  },
-
-  description: {
-    fontSize: 15,
-    color: "#666",
-    margin: 12,
-  },
-});
