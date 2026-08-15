@@ -1,10 +1,13 @@
-import { initializeApp } from 'firebase/app';
 
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { getFirestore } from 'firebase/firestore';
+import { initializeApp } from "firebase/app";
+import { initializeAuth } from "firebase/auth";
 
-import { initializeAuth } from 'firebase/auth';
-import { getReactNativePersistence } from 'firebase/auth';
+// @ts-expect-error Firebase 12 React Native export issue
+import { getReactNativePersistence } from "@firebase/auth/dist/rn/index.js";
+
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { getFirestore } from "firebase/firestore";
+
 const firebaseConfig = {
   apiKey: "AIzaSyBJlTH0EPGOoK9A-qc7VYmg-NNfu3iadNw",
   authDomain: "carros-6e927.firebaseapp.com",
@@ -16,10 +19,9 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 
-const auth = initializeAuth(app, {
+export const auth = initializeAuth(app, {
   persistence: getReactNativePersistence(AsyncStorage),
 });
 
-const db = getFirestore(app);
+export const db = getFirestore(app);
 
-export { auth, db };
