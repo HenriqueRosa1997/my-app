@@ -4,6 +4,11 @@ export const style = StyleSheet.create({
   container: {
     flex: 1,
   },
+    wrapp: {
+    flex: 1,
+    padding: 20,
+  },
+
 
   sectionTitle: {
     fontSize: 24,
@@ -41,6 +46,18 @@ export const style = StyleSheet.create({
     color: "#555",
     marginTop: 4,
     marginHorizontal: 12,
+  },
+  formContainer: {
+    padding: 20,
+  },
+
+  input: {
+    borderWidth: 1,
+    borderColor: "#ccc",
+    borderRadius: 8,
+    padding: 12,
+    marginBottom: 15,
+    fontSize: 16,
   },
 
   description: {
